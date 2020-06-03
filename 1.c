@@ -1,0 +1,204 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#define COLUNA 5
+
+typedef struct{
+    char nome1[15], nome2[15];
+    int Nusp;
+    float p1, p2, trabalho, media;
+}Student;
+
+void limpar_a_casa(Student** Matriz_Alunos, float **estatist, int i, int *numAlunosporTurma);
+void gravar_info(int *numAlunosporTurma, Student** arr, int i, float** m);
+void print_student(Student *s);
+void numeros_turma(int i, int number_of_students, float **estatist, Student *s);
+float** Alocar_Matriz (int i);
+void read_student(Student *s, int number_of_students);
+Student* allocate_StudentArray(int number_of_students, int i);
+Student* create_class(int totalTurmas, int number_of_students);
+void search_StudentByName(Student* p, int pos, int N, char nome1[], char nome2[]);
+void print_student(Student *s);
+Student** Matriz_Alunos(Student*arr, int i, int number_of_students);
+
+int main(int argc, const char * argv[]) {
+    int i=1;//numero de turmas
+    float **estatist=NULL;//a matriz de coisas
+    Student* p=NULL;
+    Student** lista=NULL;
+    int n, Total_de_estudantes=0, number_of_students, numAlunosporTurma[10];
+    estatist = Alocar_Matriz (i);
+    char nome1[15], nome2[15];
+    
+    while(1){
+        printf("queres oq\n");
+        scanf("%d", &n);
+        switch(n){
+            case 1: {
+                printf("num de estudantes\n");
+                scanf("%d", &number_of_students);
+                p = create_class(i, number_of_students);
+                lista = Matriz_Alunos(p, i, number_of_students);
+                numeros_turma(i, number_of_students, estatist, p);
+                Total_de_estudantes = Total_de_estudantes + number_of_students;
+                numAlunosporTurma[i]=number_of_students;
+                i++;
+                break;
+            
+            }
+            case 2:{
+                printf("o nome e sobrenome do aluno\n");
+                scanf("%s %s", nome1, nome2);
+                search_StudentByName(p, Total_de_estudantes, Total_de_estudantes, nome1, nome2);
+                break;
+            }
+            case 3:{
+                for(int aux=0; aux<5; aux++){
+                    for(int a=0; a<i; a++){
+                        printf("%f\t", estatist[i-1][aux]);
+                    }
+                 printf("\n");
+                }
+                break;
+            }
+            case 4:{
+                gravar_info(numAlunosporTurma, lista, i, estatist);
+                break;
+            }
+            case 5:{
+                limpar_a_casa(lista, estatist, i, numAlunosporTurma);
+                p=NULL;
+                printf("encerrando...\n");
+                break;
+            }
+                
+                break;
+        }
+    }
+    return 0;
+}
+Student* create_class(int i, int number_of_students){
+    Student* arr;
+    arr = allocate_StudentArray(number_of_students, i);
+    return arr;
+}
+void read_student(Student* s, int number_of_students){
+    int i=0;
+    for(i=0;i<number_of_students;i++){
+        printf("Nome do aluno: ");
+        scanf("%s", s[i].nome1);
+        printf("Sobreome do aluno: ");
+        scanf("%s", s[i].nome2);
+        printf("Numero USP: ");
+        scanf("%d", &s[i].Nusp);
+        printf("Nota da P1: ");
+        scanf("%f", &s[i].p1);
+        printf("Nota da P2: ");
+        scanf("%f", &s[i].p2);
+        printf("Nota do Trabalho: ");
+        scanf("%f", &s[i].trabalho);
+        s[i].media= (s[i].trabalho + s[i].p1 + s[i].p2)/3;
+    }
+
+
+
+}
+Student* allocate_StudentArray(int number_of_students, int i){
+    Student *p;
+    p = (Student*) malloc(sizeof(Student)*number_of_students);
+    read_student(p, number_of_students);
+    
+    return (p);
+}
+void search_StudentByName(Student* p, int pos, int N, char nome1[15], char nome2[15]){
+    if (pos == -1){
+        printf("Aluno nao encontrado.\n");
+    }
+    else if (strncmp(nome1, p[pos].nome1, strlen(p[pos].nome1)) == 0 && strncmp(nome2, p[pos].nome2, strlen(p[pos].nome2)) == 0){
+        print_student(p);
+    }
+    else {
+        pos--;
+        search_StudentByName(p, pos, N, nome1, nome2);
+    }
+}
+void print_student(Student *s) {
+   
+    printf("Nome: %s", s->nome1);
+    printf("Sobrenome: \t%s\n", s->nome2);
+    printf("Numero USP: %d\n", s->Nusp);
+    printf("Nota P1: %f\n", s->p1);
+    printf("Nota P2: %f\n", s->p2);
+    printf("Nota Trabalho: %f\n", s->trabalho);
+    printf("Media Final do Aluno: %f\n",s->media);
+}
+float** Alocar_Matriz (int i){
+        int aux;
+        float **m = (float**)malloc(10 * sizeof(float*)); //Aloca um Vetor de Ponteiros
+        for (aux = 0; aux < 10; aux++){ //Percorre as linhas do Vetor de Ponteiros
+            m[aux] = (float*) malloc(COLUNA * sizeof(float)); //Aloca um Vetor de Inteiros para cada posição do Vetor de Ponteiros.
+        }
+        return m; //Retorna o Ponteiro para a Matriz Alocada
+    
+}
+Student** Matriz_Alunos(Student*arr, int i, int number_of_students){
+   
+    Student **mtz = (Student**)malloc(i * sizeof(Student*));
+    for (int aux = 0; aux < number_of_students; aux++){ //Percorre as linhas do Vetor de Ponteiros
+        mtz[aux] = (Student*) malloc(number_of_students * sizeof(Student)); //Aloca um Vetor de Inteiros para cada posição do Vetor de Ponteiros.
+    }
+    return mtz;
+}
+
+
+void numeros_turma(int i, int number_of_students, float **estatist, Student *s){
+    float mediaP1, mediaP2, mediaTrabalho, medFinalTurma, nAprovados, porcent;
+    mediaP1=0;mediaP2=0;mediaTrabalho=0; medFinalTurma=0; nAprovados=0;
+    for(int aux=0; aux<number_of_students; aux++){
+        mediaP1=+s[aux].p1;
+        mediaP2=+s[aux].p2;
+        mediaTrabalho=+s[aux].trabalho;
+        medFinalTurma=+s[aux].media;
+        if(s[aux].media>=5){
+            nAprovados++;
+        }
+    }
+    mediaP1 =(float) mediaP1/number_of_students;
+    mediaP2 = (float)mediaP2/number_of_students;
+    mediaTrabalho = (float)mediaTrabalho/number_of_students;
+    medFinalTurma = (float)medFinalTurma/number_of_students;
+    porcent = (float)(nAprovados*100)/number_of_students;
+    
+    estatist[i-1][0]=(float)mediaP1;
+    estatist[i-1][1]=(float)mediaP2;
+    estatist[i-1][2]=(float)mediaTrabalho;
+    estatist[i-1][3]=(float)medFinalTurma;
+    estatist[i-1][4]=(float)porcent;
+}
+void gravar_info(int *numAlunosporTurma, Student** arr, int i, float** m){
+    char nomArqv[20];
+    int aux=0;
+    FILE *arqEst;
+    arqEst=fopen("stat.bin","wb");
+    for(aux=0; aux<i; aux++){
+        FILE *arq;
+        scanf("%s", nomArqv);
+        arq=fopen(nomArqv, "w");
+        fwrite(arr[aux], sizeof(Student), numAlunosporTurma[aux], arq);
+        fclose(arq);
+      
+        fwrite(m[aux], sizeof(float), COLUNA, arqEst);
+        
+    }
+   fclose(arqEst);
+}
+void limpar_a_casa(Student** Matriz_Alunos, float **estatist, int i, int *numAlunosporTurma){
+    for (int aux = 0; aux <numAlunosporTurma[i]; i++){
+        free (Matriz_Alunos[aux]);
+    }
+    free (Matriz_Alunos);
+    for (int aux = 0; aux < i; i++){
+        free (estatist[aux]);
+    }
+    free (estatist);
+}
