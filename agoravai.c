@@ -180,9 +180,9 @@ void gravar_info(int *numAlunosporTurma, Student** arr, int i, float** m){
     char nomArqv[20];
     int aux=0;
     FILE *arqEst;
+    FILE *arq;
     arqEst=fopen("stat.bin","wb");
     for(aux=0; aux<i; aux++){
-        FILE *arq;
         scanf("%s", nomArqv);
         arq=fopen(nomArqv, "w");
         for(int t=0; t<numAlunosporTurma[aux]; t++){
