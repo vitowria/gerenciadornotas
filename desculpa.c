@@ -71,7 +71,7 @@ int main(int argc, const char * argv[]) {
                 return 0;
                 break;
             }
-            defaut:{
+            default:{
                 printf("Entrada Invalida");
                 return 0;
             }    
