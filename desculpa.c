@@ -8,7 +8,7 @@ typedef struct{
     int Nusp;
     float p1, p2, trabalho, media;
 }Student;
-//void limpar_casa2 (Student** Matriz_Alunos, int *numAlunosporTurma, int i);
+
 void limpar_a_casa1(float **estatist, int i);
 void gravar_info(int *numAlunosporTurma, Student* arr, int i, float** m);
 void print_student(Student *s);
@@ -19,22 +19,22 @@ Student* allocate_StudentArray(int number_of_students, int i);
 Student* create_class(int totalTurmas, int number_of_students);
 void search_StudentByName(Student* p, int pos, int N, char nome1[], char nome2[]);
 void print_student(Student *s);
-//Student** Matriz_Alunos(Student*arr, int i, int number_of_students);
+
 
 int main(int argc, const char * argv[]) {
     int i=0;//numero de turmas
-    float **estatist=NULL;//a matriz de coisas
+    float **estatist=NULL;//a matriz de estatisticas
     Student* p=NULL;
     int n, Total_de_estudantes=0, number_of_students, numAlunosporTurma[10];
     estatist = Alocar_Matriz();
     char nome1[15], nome2[15];
     
     while(1){
-        printf("queres oq\n");
+        printf("Funcionalidade desejada:\n");
         scanf("%d", &n);
         switch(n){
             case 1: {
-                printf("num de estudantes\n");
+                printf("Quantidade de alunos nessa turma:\n");
                 scanf("%d", &number_of_students);
                 p = create_class(i, number_of_students);
                 numeros_turma(i, number_of_students, estatist, p);
@@ -54,7 +54,7 @@ int main(int argc, const char * argv[]) {
                 printf("Media P1  Media P2  Media Trabalho  Media Final  Porcentagem de Aprovados");
                 for(int a=0; a<i; a++){
                     for(int aux=0; aux<5; aux++){
-                        printf("%f\t\t", estatist[a][aux]);
+                        printf("%2.f\t\t", estatist[a][aux]);
                     }
                     printf("\n");
                 }
@@ -67,18 +67,19 @@ int main(int argc, const char * argv[]) {
             case 5:{
                 limpar_a_casa1(estatist, i);
                 free(p);
-                printf("encerrando...\n");
+                printf("Encerrando...\n");
                 return 0;
                 break;
             }
             default:{
                 printf("Entrada Invalida");
                 return 0;
+                 break;
             }    
-                break;
+                
         }
     }
-    return 0;
+    
 }
 Student* create_class(int i, int number_of_students){
     Student* arr;
@@ -115,7 +116,7 @@ Student* allocate_StudentArray(int number_of_students, int i){
 }
 void search_StudentByName(Student* p, int pos, int N, char nome1[15], char nome2[15]){
     if (pos == -1){
-        printf("Aluno nao encontrado.\n");
+        printf("Aluno nao encontrado\n");
     }
     else if (strncmp(nome1, p[pos].nome1, strlen(p[pos].nome1)) == 0 && strncmp(nome2, p[pos].nome2, strlen(p[pos].nome2)) == 0){
         print_student(p);
@@ -130,10 +131,10 @@ void print_student(Student *s) {
     printf("Nome: %s", s->nome1);
     printf("Sobrenome: \t%s\n", s->nome2);
     printf("Numero USP: %d\n", s->Nusp);
-    printf("Nota P1: %f\n", s->p1);
-    printf("Nota P2: %f\n", s->p2);
-    printf("Nota Trabalho: %f\n", s->trabalho);
-    printf("Media Final do Aluno: %f\n",s->media);
+    printf("Nota P1: %1.f\n", s->p1);
+    printf("Nota P2: %.1f\n", s->p2);
+    printf("Nota Trabalho: %.1f\n", s->trabalho);
+    printf("Media Final do Aluno: %2.f\n",s->media);
 }
 float** Alocar_Matriz (){
     int aux;
@@ -206,3 +207,6 @@ void limpar_a_casa1(float** estatist, int i){
     
     
 }
+
+
+
