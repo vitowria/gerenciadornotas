@@ -68,9 +68,13 @@ int main(int argc, const char * argv[]) {
                 limpar_a_casa1(estatist, i);
                 free(p);
                 printf("encerrando...\n");
+                return 0;
                 break;
             }
-                
+            defaut:{
+                printf("Entrada Invalida");
+                return 0;
+            }    
                 break;
         }
     }
