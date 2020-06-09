@@ -185,7 +185,7 @@ void gravar_info(int *numAlunosporTurma, Student* arr, int i, float** m){
     for(aux=0; aux<i; aux++){
         FILE *arqEst;
         FILE *arq;
-        arqEst=fopen("stat.bin","wb");
+        arqEst=fopen("stat.bin","ab");
         printf("Digite nome do arquivo texto\n");
         scanf("%s", nomArqv);
         arq=fopen(nomArqv, "a");
