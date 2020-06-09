@@ -134,7 +134,7 @@ void print_student(Student *s) {
     printf("Nota P1: %1.f\n", s->p1);
     printf("Nota P2: %.1f\n", s->p2);
     printf("Nota Trabalho: %.1f\n", s->trabalho);
-    printf("Media Final do Aluno: %2.f\n",s->media);
+    printf("Media Final do Aluno: %.2f\n",s->media);
 }
 float** Alocar_Matriz (){
     int aux;
@@ -191,7 +191,7 @@ void gravar_info(int *numAlunosporTurma, Student* arr, int i, float** m){
         arq=fopen(nomArqv, "a");
         fprintf(arq, "Nome Completo   Numero USP  Nota P1  Nota P2  Nota Trabalho  Media\n");
         for(int t=0; t<numAlunosporTurma[aux]; t++){
-            fprintf(arq, "%s %s, %d, %f, %f, %f, %f\n", arr[t].nome1, arr[t].nome2, arr[t].Nusp, arr[t].p1, arr[t].p2, arr[t].trabalho, arr[t].media);
+            fprintf(arq, "%s %s, %d, %.2f, %.2f, %.2f, %.2f\n", arr[t].nome1, arr[t].nome2, arr[t].Nusp, arr[t].p1, arr[t].p2, arr[t].trabalho, arr[t].media);
             fwrite(&m[aux], sizeof(float), COLUNA, arqEst);
         }
         fclose(arq);
